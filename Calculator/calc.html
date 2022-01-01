@@ -1,0 +1,258 @@
+<html>
+
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=0.75">
+        <title>Calculator</title>
+    </head>
+
+    <style>
+
+        .box
+        {
+            background-color: #333333;
+            color: azure;
+            width: 302px;
+            margin: auto;
+        }
+
+        .digits
+        {
+            text-align: center; 
+            width: 73.5px;
+            height: 40px;
+            border-color: black;
+            border-style: groove;
+            border-width: 1px;
+            font-size: 30px;
+            font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            float: left;
+            background-color: whitesmoke;
+            color: black;
+            cursor: pointer;
+        }
+
+        .operations
+        {
+            text-align: center; 
+            width: 73.5px;
+            height: 40px;
+            border-color: black;
+            border-style: groove;
+            border-width: 1px;
+            font-size: 30px;
+            font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            float: left;
+            background-color: #8c8c8c;
+            color: whitesmoke;
+            cursor: pointer;
+        }
+
+        .operations:active 
+        {
+            background-color: #ffffff;
+            color: black;
+        }
+
+        .digits:active 
+        {
+            background-color: #666666;
+            color: whitesmoke;
+        }
+
+        .calc
+        {
+            float: right;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        }
+
+    </style>
+
+    <script>
+
+        let s='', arr=[];
+
+        function calculator(x)
+        {
+            if(x==undefined) //reset all
+            {
+                document.getElementById("0").innerHTML= '';
+                document.getElementById("1").innerHTML= 0;
+                s='';
+                arr=[];
+            }
+
+            else
+            {
+                arr.push(x);
+                s+=x;
+                document.getElementById("0").innerHTML= s;   
+                
+                if(s.length>37)
+                {
+                    alert("You've exceeded the calculator display limits!")
+                    location.reload();
+                }
+            }
+
+            if(x=='=')
+            {
+                let temp='', result, operation= '', start= false;
+
+                if(document.getElementById("1").innerHTML== 'NaN' || Number.isInteger(arr[0]))
+                result=0;
+
+                else
+                {
+                    start= true;
+
+                    if(document.getElementById("1").innerHTML.includes('.')) // fraction
+                    result= parseFloat(document.getElementById("1").innerHTML);
+
+                    else
+                    result= parseInt(document.getElementById("1").innerHTML); // number
+                }
+                
+                for(var i=0; i<arr.length; i++)
+                {
+                    let check=true;
+
+                    if(Number.isInteger(arr[i]) || arr[i]=='.' || (arr[i]=='-' && (arr[i-1]=='/' || arr[i-1]=='X')))
+                    {
+                        temp+=arr[i];
+                        check=false;
+                    }
+
+                    if(!Number.isInteger(arr[i]) && arr[i]!='.' && check==true)
+                    {
+                        if(temp.includes('.')) // check syntax
+                        {
+                            let count= temp.split('.');
+                            
+                            if(count.length>2 || count[0]=='')
+                            {
+                                result='NaN';
+                                break;
+                            }
+                        }
+
+                        if(start==false)
+                        {
+                            if(temp.includes('.'))
+                            result= parseFloat(temp);
+
+                            else
+                            result= parseInt(temp);
+
+                            start=true;
+                        }
+
+                        if(operation=='+')
+                        {
+                            if(temp.includes('.'))
+                            result= result + parseFloat(temp);
+
+                            else
+                            result= result + parseInt(temp);
+                        }
+                        
+
+                        if(operation=='-')
+                        {
+                            if(temp.includes('.'))
+                            result= result - parseFloat(temp);
+
+                            else
+                            result= result - parseInt(temp);
+                        }
+
+                        if(operation=='X')
+                        {
+                            if(temp.includes('.'))
+                            result= result * parseFloat(temp);
+
+                            else
+                            result= result * parseInt(temp);
+                        }
+
+                        if(operation=='/')
+                        {
+                            if(temp.includes('.'))
+                            result= result / parseFloat(temp);
+
+                            else
+                            result= result / parseInt(temp);
+                        }
+
+                        operation=arr[i];
+
+                        temp='';
+                    }
+                }
+
+                arr=[];
+
+                s='' + result;
+
+                if(s.length>17)
+                result= result.toFixed(17);
+
+                s='';
+
+                document.getElementById("0").innerHTML= '';
+                document.getElementById("1").innerHTML= result;
+
+                if(document.getElementById("1").innerHTML.length>20)
+                { 
+                    alert("You've exceeded the calculator display limits!")
+                    location.reload();
+                }
+            }
+        }
+
+        function del()
+        {
+            let string=document.getElementById("1").innerHTML;
+            document.getElementById("1").innerHTML=string.substring(0,string.length-1);
+
+            if(document.getElementById("1").innerHTML=='' || string=='NaN')
+            document.getElementById("1").innerHTML=0;
+        }
+
+    </script>
+
+    <body>
+        
+        <div class="box">
+            
+            <span class="calc" id="0"></span><br><br>
+
+            <span class="calc" style="font-size: 30px;" id="1">0</span><br><br>
+
+            <span class="operations" style="width: 149px;" onclick="del()">DEL</span>
+            <span class="operations" style="width: 149px;" onclick="calculator()">C</span>
+
+            <span class="digits" onclick="calculator(7)">7</span>
+            <span class="digits" onclick="calculator(8)">8</span>
+            <span class="digits" onclick="calculator(9)">9</span>
+            <span class="operations" onclick="calculator('/')">/</span>
+
+            <span class="digits" onclick="calculator(4)">4</span>
+            <span class="digits" onclick="calculator(5)">5</span>
+            <span class="digits" onclick="calculator(6)">6</span>
+            <span class="operations" onclick="calculator('X')">X</span>
+            
+            <span class="digits" onclick="calculator(1)">1</span>
+            <span class="digits" onclick="calculator(2)">2</span>
+            <span class="digits" onclick="calculator(3)">3</span>
+            <span class="operations" onclick="calculator('-')">-</span>
+
+            <span class="digits" onclick="calculator(0)">0</span>
+            <span class="digits" onclick="calculator('.')">.</span>
+            <span class="digits" style="background-color: #80b3ff" onclick="calculator('=')">=</span>
+            <span class="operations" onclick="calculator('+')">+</span>
+
+        </div>
+   
+    </body>
+
+</html>
