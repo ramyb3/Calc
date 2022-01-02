@@ -11,19 +11,19 @@
         {
             background-color: #333333;
             color: azure;
-            width: 302px;
+            width: 452px;
             margin: auto;
         }
 
         .digits
         {
             text-align: center; 
-            width: 73.5px;
-            height: 40px;
+            width: 111px;
+            height: 70px;
             border-color: black;
             border-style: groove;
             border-width: 1px;
-            font-size: 30px;
+            font-size: 50px;
             font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
             float: left;
             background-color: whitesmoke;
@@ -34,12 +34,12 @@
         .operations
         {
             text-align: center; 
-            width: 73.5px;
-            height: 40px;
+            width: 111px;
+            height: 70px;
             border-color: black;
             border-style: groove;
             border-width: 1px;
-            font-size: 30px;
+            font-size: 50px;
             font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
             float: left;
             background-color: #8c8c8c;
@@ -87,7 +87,7 @@
                 s+=x;
                 document.getElementById("0").innerHTML= s;   
                 
-                if(s.length>37)
+                if(s.length>38)
                 {
                     alert("You've exceeded the calculator display limits!")
                     location.reload();
@@ -193,15 +193,15 @@
 
                 s='' + result;
 
-                if(s.length>17)
-                result= result.toFixed(17);
+                if(s.length>19)
+                result= result.toFixed(19);
 
                 s='';
 
                 document.getElementById("0").innerHTML= '';
                 document.getElementById("1").innerHTML= result;
 
-                if(document.getElementById("1").innerHTML.length>20)
+                if(document.getElementById("1").innerHTML.length>22)
                 { 
                     alert("You've exceeded the calculator display limits!")
                     location.reload();
@@ -211,11 +211,10 @@
 
         function del()
         {
-            let string=document.getElementById("1").innerHTML;
-            document.getElementById("1").innerHTML=string.substring(0,string.length-1);
+            s=s.substring(0,s.length-1);
+            arr=arr.slice(0, arr.length-1);
 
-            if(document.getElementById("1").innerHTML=='' || string=='NaN')
-            document.getElementById("1").innerHTML=0;
+            document.getElementById("0").innerHTML=s;
         }
 
     </script>
@@ -224,12 +223,12 @@
         
         <div class="box">
             
-            <span class="calc" id="0"></span><br><br>
+            <span class="calc" style="font-size: 20px;" id="0"></span><br><br>
 
-            <span class="calc" style="font-size: 30px;" id="1">0</span><br><br>
+            <span class="calc" style="font-size: 40px;" id="1">0</span><br><br><br>
 
-            <span class="operations" style="width: 149px;" onclick="del()">DEL</span>
-            <span class="operations" style="width: 149px;" onclick="calculator()">C</span>
+            <span class="operations" style="width: 224px;" onclick="del()">DEL</span>
+            <span class="operations" style="width: 224px;" onclick="calculator()">C</span>
 
             <span class="digits" onclick="calculator(7)">7</span>
             <span class="digits" onclick="calculator(8)">8</span>
