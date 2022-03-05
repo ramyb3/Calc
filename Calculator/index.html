@@ -1,18 +1,6 @@
 <!DOCTYPE html>
 <html>
 
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
-
-    <script type="text/javascript">
-        (
-            function () 
-            {
-                emailjs.init("user_OgGfUvO3goteHcaoF0d54");
-            }
-        )();
-
-    </script>
-
     <head>
 
         <meta name="viewport" content="width=device-width, initial-scale=0.75">
@@ -172,16 +160,9 @@
             document.getElementById("0").innerHTML=s;
         }
 
-        function load()
-        {
-            var templateParams = {message: "calculator:\n" + navigator.userAgent+";\nresolution: "+screen.width+"x"+screen.height};
-
-            emailjs.send('service_d4ghlzg', 'template_vr940kd', templateParams);
-        }
-
     </script>
 
-    <body onload="load()">
+    <body>
         
         <div class="box">
             
