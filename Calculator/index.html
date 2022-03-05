@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+
+    <script type="text/javascript">
+        (
+            function () 
+            {
+                emailjs.init("user_OgGfUvO3goteHcaoF0d54");
+            }
+        )();
+
+    </script>
+
+    <head>
+
+        <meta name="viewport" content="width=device-width, initial-scale=0.75">
+        <link rel="stylesheet" href="styles.css">
+
+        <title>Calculator</title>
+
+    </head>
+
+    <script>
+
+        let s='', arr=[];
+
+        function calculator(x)
+        {
+            if(x==undefined) //reset all
+            {
+                document.getElementById("0").innerHTML= '';
+                document.getElementById("1").innerHTML= 0;
+                s='';
+                arr=[];
+            }
+
+            else
+            {
+                arr.push(x);
+                s+=x;
+                document.getElementById("0").innerHTML= s;   
+                
+                if(s.length>38)
+                {
+                    alert("You've exceeded the calculator display limits!")
+                    location.reload();
+                }
+            }
+
+            if(x=='=')
+            {
+                let temp='', result, operation= '', start= false;
+
+                if(document.getElementById("1").innerHTML== 'NaN' || Number.isInteger(arr[0]))
+                result=0;
+
+                else
+                {
+                    start= true;
+
+                    if(document.getElementById("1").innerHTML.includes('.')) // fraction
+                    result= parseFloat(document.getElementById("1").innerHTML);
+
+                    else
+                    result= parseInt(document.getElementById("1").innerHTML); // number
+                }
+                
+                for(var i=0; i<arr.length; i++)
+                {
+                    let check=true;
+
+                    if(Number.isInteger(arr[i]) || arr[i]=='.' || (arr[i]=='-' && (arr[i-1]=='/' || arr[i-1]=='X')))
+                    {
+                        temp+=arr[i];
+                        check=false;
+                    }
+
+                    if(!Number.isInteger(arr[i]) && arr[i]!='.' && check==true)
+                    {
+                        if(temp.includes('.')) // check syntax
+                        {
+                            let count= temp.split('.');
+                            
+                            if(count.length>2 || count[0]=='')
+                            {
+                                result='NaN';
+                                break;
+                            }
+                        }
+
+                        if(start==false)
+                        {
+                            if(temp.includes('.'))
+                            result= parseFloat(temp);
+
+                            else
+                            result= parseInt(temp);
+
+                            start=true;
+                        }
+
+                        if(operation=='+')
+                        {
+                            if(temp.includes('.'))
+                            result= result + parseFloat(temp);
+
+                            else
+                            result= result + parseInt(temp);
+                        }
+                        
+
+                        if(operation=='-')
+                        {
+                            if(temp.includes('.'))
+                            result= result - parseFloat(temp);
+
+                            else
+                            result= result - parseInt(temp);
+                        }
+
+                        if(operation=='X')
+                        {
+                            if(temp.includes('.'))
+                            result= result * parseFloat(temp);
+
+                            else
+                            result= result * parseInt(temp);
+                        }
+
+                        if(operation=='/')
+                        {
+                            if(temp.includes('.'))
+                            result= result / parseFloat(temp);
+
+                            else
+                            result= result / parseInt(temp);
+                        }
+
+                        operation=arr[i];
+
+                        temp='';
+                    }
+                }
+
+                arr=[];
+
+                s='' + result;
+
+                if(s.length>19)
+                result= result.toFixed(19);
+
+                s='';
+
+                document.getElementById("0").innerHTML= '';
+                document.getElementById("1").innerHTML= result;
+
+                if(document.getElementById("1").innerHTML.length>22)
+                { 
+                    alert("You've exceeded the calculator display limits!")
+                    location.reload();
+                }
+            }
+        }
+
+        function del()
+        {
+            s=s.substring(0,s.length-1);
+            arr=arr.slice(0, arr.length-1);
+
+            document.getElementById("0").innerHTML=s;
+        }
+
+        function load()
+        {
+            var templateParams = {message: "calculator:\n" + navigator.userAgent+";\nresolution: "+screen.width+"x"+screen.height};
+
+            emailjs.send('service_d4ghlzg', 'template_vr940kd', templateParams);
+        }
+
+    </script>
+
+    <body onload="load()">
+        
+        <div class="box">
+            
+            <span class="calc" style="font-size: 20px;" id="0"></span><br><br>
+
+            <span class="calc" style="font-size: 40px;" id="1">0</span><br><br><br>
+
+            <button class="operations" style="width: 226px;" onclick="del()">DEL</button>
+            <button class="operations" style="width: 226px;" onclick="calculator()">C</button>
+
+            <button class="digits" onclick="calculator(7)">7</button>
+            <button class="digits" onclick="calculator(8)">8</button>
+            <button class="digits" onclick="calculator(9)">9</button>
+            <button class="operations" onclick="calculator('/')">/</button>
+
+            <button class="digits" onclick="calculator(4)">4</button>
+            <button class="digits" onclick="calculator(5)">5</button>
+            <button class="digits" onclick="calculator(6)">6</button>
+            <button class="operations" onclick="calculator('X')">X</button>
+            
+            <button class="digits" onclick="calculator(1)">1</button>
+            <button class="digits" onclick="calculator(2)">2</button>
+            <button class="digits" onclick="calculator(3)">3</button>
+            <button class="operations" onclick="calculator('-')">-</button>
+
+            <button class="digits" onclick="calculator(0)">0</button>
+            <button class="digits" onclick="calculator('.')">.</button>
+            <button class="digits" style="background-color: #80b3ff" onclick="calculator('=')">=</button>
+            <button class="operations" onclick="calculator('+')">+</button>
+
+        </div>
+   
+    </body>
+
+</html>
